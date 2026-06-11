@@ -13,7 +13,7 @@ struct LevelRendererPlayer {
 };
 
 struct LevelRenderer {
-    uint8_t padding[0x430];
+    uint8_t padding[0x478];
     LevelRendererPlayer* player;
 };
 #pragma pack(pop)
@@ -23,7 +23,7 @@ static float g_zoomModifier = 1.0f;
 constexpr float TARGET_ZOOM = 10.0f;
 
 constexpr uint8_t RENDER_LEVEL_CALL_SIG[] = {
-0xE8, 0x00, 0x00, 0x00, 0x00, 0x45, 0x32, 0xF6, 0x48, 0x8B, 0x8E
+0xE8, 0x00, 0x00, 0x00, 0x00, 0x45, 0x31, 0xFF, 0x48, 0x83, 0xBE
 };
 
 constexpr uint8_t RENDER_LEVEL_CALL_MASK[] = {
