@@ -5,7 +5,7 @@ A simple Zoom mod for Minecraft Bedrock Edition (Windows).
 ## Features
 
 - Press 'C' to zoom in.
-- Supports v1.26.1.01
+- Supports v1.26.20.04
 - Smooth zoom animation.
 
 ## Requirements
