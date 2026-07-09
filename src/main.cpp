@@ -1,4 +1,3 @@
-#define NOMINMAX
 #include <Windows.h>
 #include <cstdint>
 #include <atomic>
@@ -60,7 +59,7 @@ void Initialize() {
     >();
 
     auto scanResult = hat::find_pattern(signature, ".text");
-    if (!scanResult) {
+    if (scanResult.get() == nullptr) {
         return;
     }
 
