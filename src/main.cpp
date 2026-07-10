@@ -46,24 +46,20 @@ void __fastcall DetourRenderLevel(LevelRenderer* levelRenderer, void* screenCont
     }
 }
 
+uintptr_t scanfunc(std::string pattern) {
+	hat::result res = hat::parse_signature(pattern);
+	if (!res.has_value()) return 0;
+	hat::scan_result addr = hat::find_pattern(res.value(), ".text");
+	if (!addr.has_result()) return 0;
+
+	return (uintptr_t)addr.get();
+}
+
 void Initialize() {
     if (MH_Initialize() != MH_OK)
         return;
 
-    constexpr auto signature = hat::compile_signature<
-        "48 8B C4 48 89 58 ? 55 56 57 41 54 41 55 41 56 41 57 "
-        "48 8D A8 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 70 ? 0F 29 78 ? "
-        "44 0F 29 40 ? 44 0F 29 48 ? 44 0F 29 90 ? ? ? ? "
-        "44 0F 29 98 ? ? ? ? 44 0F 29 A0 ? ? ? ? "
-        "48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 4D 8B F0"
-    >();
-
-    auto scanResult = hat::find_pattern(signature, ".text");
-    if (scanResult.get() == nullptr) {
-        return;
-    }
-
-    void* target = scanResult.get();
+    void* target = (void*)scanfunc("E8 ? ? ? ? 45 31 E4 48 83 BE");
 
     void* original = nullptr;
     if (MH_CreateHook(target, &DetourRenderLevel, &original) == MH_OK) {
